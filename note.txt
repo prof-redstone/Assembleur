@@ -1,0 +1,26 @@
+premier argument; rcx, rdx, r8, r9, pile
+rsp ; registre pour la pile
+
+d -> donne reserve
+res -> donne noninitialise
+
+b (byte : 8bits)
+w (word : 16 bits)
+d (double-word : 32 bits) -> float
+q (quadruple-word : 64 bits) ->double
+
+t -> 128 bits
+o
+y
+z
+
+----------------------------
+Compilation :
+
+    nasm -f win64 a64.asm -o a64.obj
+
+Lier :
+    .\golink.exe a64.obj /entry main /console kernel32.dll
+
+Executer :
+    a64.exe
