@@ -14,6 +14,18 @@ o
 y
 z
 
+CMP : comparaison de valeur numeriques
+JMP : saut inconditionnel vers une etiquelle (label)
+
+JE : fais un saut si A est egal à B
+JNE : fais un saut si A diff de B
+
+JL : fais un saut si A est strictement inférieur a B
+JLE : saut si A>=B
+
+JG : fais saut si A>B
+JGE : saut si A>=B
+
 ----------------------------
 Compilation :
 

@@ -12,57 +12,56 @@ STD_INPUT_HANDLE: equ -10
 SHADOWSPACE_SIZE: equ 32+8
 
 section .data
-    message: db "Quel est ton nom ?"
-    MESSAGE_LENGTH: equ $-message
-    USERNAME_MAX_LENGTH: equ 12 ; 10 carac + 2 pour le retour à la ligne
+    n1: dq 5
+    n2: dq 5
+    message_equals: db "n1 est egal a n2", 10
+    message_not_equals: db "n1 est different de n2", 10
+    ;MESSAGE_EQUALS_LEN: equ $-message_equals
+    ;MESSAGE_NOT_EQUALS_LEN: equ $-message_not_equals
 
 section .bss
     written: resd 1 
-    read: resd 1
-    username: resb USERNAME_MAX_LENGTH
 
 section .text
     global main
     main:
         sub rsp, SHADOWSPACE_SIZE
-        ;------------------------
 
-        ;demande de saisie
-        mov rcx, STD_OUTPUT_HANDLE
-        call GetStdHandle
+        mov rax, [n1]
+        mov rbx, [n2]
+        cmp rax, rbx
+        je equals
+        jmp not_equals
 
-        mov rcx, rax
-        mov rdx, message
-        mov r8, MESSAGE_LENGTH
-        mov r9, written
-        mov qword [rsp + SHADOWSPACE_SIZE], 0
-        call WriteConsoleA
+        equals:
+            ;affichage de message
+            mov rcx, STD_OUTPUT_HANDLE
+            call GetStdHandle
 
-        ;lecture du clavier
-        mov rcx, STD_INPUT_HANDLE
-        call GetStdHandle
+            mov rcx, rax
+            mov rdx, message_equals
+            mov r8, 17
+            mov r9, written
+            mov qword [rsp + SHADOWSPACE_SIZE], 0
+            call WriteConsoleA 
+            jmp exit
 
-        mov rcx, rax
-        mov rdx, username
-        mov r8, USERNAME_MAX_LENGTH
-        mov r9, read
-        mov qword [rsp + SHADOWSPACE_SIZE], 0
-        call ReadConsoleA
+        not_equals:
+            ;affichage de message
+            mov rcx, STD_OUTPUT_HANDLE
+            call GetStdHandle
+
+            mov rcx, rax
+            mov rdx, message_not_equals
+            mov r8, 23
+            mov r9, written
+            mov qword [rsp + SHADOWSPACE_SIZE], 0
+            call WriteConsoleA 
+            jmp exit
 
 
-        ;Affichage de la saisie
-        mov rcx, STD_OUTPUT_HANDLE
-        call GetStdHandle
-
-        mov rcx, rax
-        mov rdx, username
-        mov r8, USERNAME_MAX_LENGTH
-        mov r9, written
-        mov qword [rsp + SHADOWSPACE_SIZE], 0
-        call WriteConsoleA
-
-        ;------------------------
-        add rsp, SHADOWSPACE_SIZE
-        
-        xor rcx, rcx
-        call ExitProcess
+        exit:
+            ;quitter le programme
+            add rsp, SHADOWSPACE_SIZE
+            xor rcx, rcx
+            call ExitProcess
