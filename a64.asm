@@ -16,8 +16,8 @@ section .data
     n2: dq 5
     message_equals: db "n1 est egal a n2", 10
     message_not_equals: db "n1 est different de n2", 10
-    ;MESSAGE_EQUALS_LEN: equ $-message_equals
-    ;MESSAGE_NOT_EQUALS_LEN: equ $-message_not_equals
+    MESSAGE_EQUALS_LEN: equ 17
+    MESSAGE_NOT_EQUALS_LEN: equ 23
 
 section .bss
     written: resd 1 
@@ -40,7 +40,7 @@ section .text
 
             mov rcx, rax
             mov rdx, message_equals
-            mov r8, 17
+            mov r8, MESSAGE_EQ UALS_LEN
             mov r9, written
             mov qword [rsp + SHADOWSPACE_SIZE], 0
             call WriteConsoleA 
@@ -53,7 +53,7 @@ section .text
 
             mov rcx, rax
             mov rdx, message_not_equals
-            mov r8, 23
+            mov r8, MESSAGE_NOT_EQUALS_LEN
             mov r9, written
             mov qword [rsp + SHADOWSPACE_SIZE], 0
             call WriteConsoleA 
