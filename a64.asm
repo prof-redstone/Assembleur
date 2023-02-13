@@ -40,7 +40,7 @@ section .text
 
             mov rcx, rax
             mov rdx, message_equals
-            mov r8, MESSAGE_EQ UALS_LEN
+            mov r8, MESSAGE_EQUALS_LEN
             mov r9, written
             mov qword [rsp + SHADOWSPACE_SIZE], 0
             call WriteConsoleA 
